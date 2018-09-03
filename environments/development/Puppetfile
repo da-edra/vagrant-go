@@ -1,0 +1,3 @@
+forge 'https://forge.puppetlabs.com'
+
+mod 'puppetlabs-postgresql', '5.8.0'
