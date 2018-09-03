@@ -28,4 +28,12 @@ Vagrant.configure("2") do |config|
     puppet.environment_path = "environments"
     puppet.environment = "development"
   end
+
+  config.vm.synced_folder "../summer", "/home/summer/go/src/github.com/conekta/summer",
+                          group: "wheel",
+                          #type: "nfs",
+                          #mount_options: ['actimeo=2']
+                          mount_options: ["dmode=777,fmode=777"]
+                          #type: "nfs"
 end
+

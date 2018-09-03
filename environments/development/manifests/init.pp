@@ -1,5 +1,5 @@
 # List of packages to install
-$packages = [ 'wget', 'tmux', 'git', 'postgresql-server', 'postgresql-contrib' ]
+$packages = [ 'wget', 'postgresql-server', 'postgresql-contrib', 'tmux', 'git', 'tree', 'emacs-nox', 'nano' ]
 $puppet_modules = [ 'puppetlabs-stdlib', 'puppetlabs-apt', 'puppetlabs-concat', 'puppetlabs-postgresql' ]
 
 # Everything assigned to the prepare stage will be applied before the classes
@@ -15,42 +15,18 @@ Stage['main'] -> Stage['last']
 # Prepare stage to install essential packages and puppet modules
 class initial_setup {
   notify { 'Updating CentOS': }
-  exec { "update_centos":
-    command => 'yum clean all; yum update -y -q',
+  exec { 'update_centos':
+    command => 'yum update -y',
     path => '/usr/bin/',
   }
 
   contain install_packages
-  contain install_modules
 }
 
 class install_packages {
   notify { 'Installing packages': }
   package { $packages:
     ensure => 'installed',
-  }
-}
-
-class install_modules {
-  notify { 'Installing Puppet modules': }
-  exec { 'puppet_modules1':
-    command => "puppet module install puppetlabs-stdlib",
-    path => '/usr/bin/',
-  }
-
-  exec { 'puppet_modules2':
-    command => "puppet module install puppetlabs-apt",
-    path => '/usr/bin/',
-  }
-
-  exec { 'puppet_modules3':
-    command => "puppet module install puppetlabs-concat",
-    path => '/usr/bin/',
-  }
-
-  exec { 'puppet_modules4':
-    command => "puppet module install puppetlabs-postgresql",
-    path => '/usr/bin/',
   }
 }
 
@@ -66,10 +42,11 @@ class create_users {
     ensure => 'present',
     comment => 'summer user',
     managehome => true,
-    groups => 'summer',
-    password => '*',
+    groups => ['summer', 'wheel', 'vagrant', 'vboxsf'],
+    password => 'summergo',
     shell => '/bin/bash',
   }
+
 }
 
 class {
