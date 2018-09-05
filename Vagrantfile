@@ -31,9 +31,10 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder "../summer", "/home/summer/go/src/github.com/conekta/summer",
                           group: "wheel",
-                          #type: "nfs",
-                          #mount_options: ['actimeo=2']
                           mount_options: ["dmode=777,fmode=777"]
-                          #type: "nfs"
+
+  config.vm.synced_folder "../conekta-go", "/home/summer/go/src/github.com/conekta/conekta-go",
+                          group: "wheel",
+                          mount_options: ["dmode=777,fmode=777"]
 end
 

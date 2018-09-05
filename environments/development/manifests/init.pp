@@ -54,6 +54,8 @@ class {
     stage => prepare;
   'create_users':
     stage => main;
+  'ruby':
+    stage => last;
   'golang':
     stage => last;
   'postgresql':
